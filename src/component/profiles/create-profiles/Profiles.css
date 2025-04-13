@@ -1,0 +1,27 @@
+
+
+
+
+
+/* Form */
+.form .form-group {
+    margin: 1.2rem 0;
+  }
+.form .form-group2 {
+  margin: 1.2rem 0;
+  display: flex;
+}
+.form .form-text{
+    display: block;
+    color: #888;
+    margin-top: 0.3rem;
+}
+.form input[type='text'],
+.form input[type='email'],
+.form select,
+.form textarea{
+  font-size: 1.2rem;
+  padding: 0.4rem;
+  width: 100%;
+  border: 1px solid #ccc;
+}
