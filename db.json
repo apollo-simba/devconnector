@@ -1,101 +1,55 @@
 {
- 
   "user": [
     {
-      "id": "78c4",
+      "id": "df88",
       "name": "simba",
       "email": "simba@gmail.com",
-      "password": "123465"
-    }
-  ],
-  "profile": [
-    {
-      "id": "2e84",
-      "status": "Manager",
-      "company": "Innos",
-      "website": "website",
-      "location": "New York NY",
-      "skills": "software engineering,html,css,javascript",
-      "gitName": "github",
-      "proposal": "hello, everyone",
-      "twitter": "",
-      "facebook": "",
-      "youtube": "",
-      "linkedin": "",
-      "instagram": ""
-    },
-    {
-      "id": "0097",
-      "status": "Manager",
-      "company": "Innos",
-      "website": "website",
-      "location": "New York NY",
-      "skills": "software engineering,html,css,javascript",
-      "gitName": "github",
-      "proposal": "I am looking for a fully remote job.",
-      "twitter": "",
-      "facebook": "",
-      "youtube": "",
-      "linkedin": "",
-      "instagram": ""
-    }
-  ],
-  "work_exp": [
-    {
-      "id": "c582",
-      "job": "senior software engineer",
-      "company": "Secure Haven LLC",
-      "location": "New York NY",
-      "fromData": "2025-04-01",
-      "toData": "",
-      "current": true,
-      "description": "This is the job description"
-    }
-  ],
-  "education": [
-    {
-      "id": "e8ba",
-      "school": "the university of Arizona",
-      "degree": "bachelor",
-      "fieldOfStudy": "computer science",
-      "fromData": "2025-04-04",
-      "toData": "2025-04-23",
-      "current": false,
-      "description": "this is the program description"
-    }
-  ],
-  "post": [
-    {
-      "id": "2458",
-      "content": "fdksjlfskj",
-      "click": false
-    },
-    {
-      "id": "0318",
-      "content": "fadfadfa",
-      "click": false
-    },
-    {
-      "id": "39c1",
-      "content": "ghjghj",
-      "click": false
-    }
-  ],
-  "comment": [
-    {
-      "id": "99db",
-      "text": "123",
-      "click": false
-    },
-    {
-      "id": "9a01",
-      "text": "23123",
-      "click": false
-    },
-    {
-      "id": "1392",
-      "text": "jkn",
-      "click": false
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Senior Developer",
+          "company": "Innos",
+          "website": "website",
+          "location": "location",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "github",
+          "proposal": "dsadad",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "Vancouver",
+          "fromData": "2025-04-02",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "education": [
+        {
+          "school": "the university of Arizona",
+          "degree": "bachelor",
+          "fieldOfStudy": "computer science",
+          "fromData": "2025-04-10",
+          "toData": "",
+          "current": true,
+          "description": "Program description"
+        }
+      ]
     }
   ]
 }

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { use, useEffect, useId } from "react"
 import { useState } from "react"
 import { Fragment } from "react"
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons/faCodeBranch"
@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 export const Experience = () =>{
+    const [userId, setUserId] = useState(null);
+    const [loading, setLoading] = useState(false);
     const[formData, setFormData] = useState({
         job: '',
         company: '',
@@ -16,14 +18,43 @@ export const Experience = () =>{
         description: ''
     })
     const{job, company, location, fromData, toData, current, description} = formData;
+
+    const fetchUser = async () => {
+        try {
+            setLoading(true);
+            const response  = await fetch('http://localhost:3001/user');
+            if(response.ok){
+                const res = await response.json();
+                setUserId(res[0].id);
+                
+            }
+            console.log(userId);
+        } catch (error) {
+            console.Error('Unable to fetch the userId', error);
+        }finally{
+            setLoading(false);
+        }
+    }
+
+    useEffect(() =>{
+        const loadUser = async() =>{
+            await fetchUser();
+        }
+        loadUser();
+    }, [])
     const handleChange = e =>{
         setFormData({...formData, [e.target.name]: e.target.value});
     };
+
     const [disabled, toggleDisabled] = useState(false);
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        if(! useId){
+            alert('please wait for loading userId');
+           
+        }
         const newExperience = {
-            // id: Date.now(),
+            
             job,
             company,
             location,
@@ -32,16 +63,29 @@ export const Experience = () =>{
             current,
             description
         }
+
         try {
-            const response = await fetch('http://localhost:3001/work_exp', {
+
+            const response = await fetch(`http://localhost:3001/user/${userId}`);
+            if(!response.ok){
+                throw new Error('Unable to get the user data');
+            }
+
+            const currentData = await response.json();// 1. get the current state
+            const newUserData = {
+                ...currentData,
+                work_exp: [newExperience]
+            }// modify the data you want to update
+
+            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`, {
     
-                method:'POST',
+                method:'PUT',
                 headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(newExperience)
+                body: JSON.stringify(newUserData)
             
             }
             )
-            if(response.ok){
+            if(updatedResponse.ok){
                 alert('Added the Experience successfully');
                 setFormData({
                     job: '',

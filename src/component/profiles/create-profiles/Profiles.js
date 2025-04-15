@@ -1,5 +1,5 @@
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Fragment } from "react"
@@ -16,6 +16,7 @@ import { faInstagram } from "@fortawesome/free-brands-svg-icons/faInstagram"
 
 
 export const Profiles = () =>{
+    const [loading, setLoading] = useState(true);
     const[formData, setFormData] = useState(
         {
             status : '',
@@ -32,7 +33,34 @@ export const Profiles = () =>{
             instagram: ''
         }
     );
+    const [userName, setUserName] = useState('');
+    const [userId, setUserId] = useState(null);
     const {status, company, website, location, skills, gitName, proposal, twitter, facebook, youtube, linkedin, instagram} = formData;
+
+    const fetchUser = async() =>{
+       try {
+            setLoading(true);
+           const response = await fetch('http://localhost:3001/user');
+           if(response.ok){
+                const res = await response.json();
+                setUserId(res[0].id);
+                setUserName(res[0].name);
+           }
+           console.log(userId);
+       } catch (error) {
+            console.error('Unable to fetch the userInfo', error);
+       }finally{
+        setLoading(false);
+       }
+    };
+
+    useEffect(() =>{
+        const loadData = async() =>{
+            await fetchUser();
+        };
+        loadData();
+    }, []);
+
     const handleChange = e =>{
 
         setFormData({...formData, [e.target.name]: e.target.value});
@@ -43,30 +71,48 @@ export const Profiles = () =>{
     const [socialNetworkLinks, displayLinks] = useState(false);
     const handleSubmit = async(e) =>{
         e.preventDefault();
+        if(! userId){
+            alert('please wait while we load your user data');
+            return ;
+        }
         const newProfile = {
             
             status,
             company,
             website,
             location,
-            skills,
+            skills: skills.split(',').map((skill) =>(skill.trim())),
             gitName,
             proposal,
-            twitter,
-            facebook,
-            youtube,
-            linkedin,
-            instagram
+            social:{
+                
+                twitter,
+                facebook,
+                youtube,
+                linkedin,
+                instagram
+            }
         };
+        console.log(userId);
         try {
-            const response = await fetch(('http://localhost:3001/profile'),
-            {
-                method: 'POST',
-                headers: {'Content-type': 'application/json'},
-                body: JSON.stringify(newProfile)
-    
+            const response = await fetch(`http://localhost:3001/user/${userId}`); //1. get the current user data.
+            
+            if(!response.ok){
+                throw new Error('Unable to access the user data');
+            }
+
+            const currentData = await response.json();
+            
+            const updatedData = {
+                ...currentData, profile: [newProfile]
+            }// update the data
+
+            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`,{
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(updatedData)
             })
-            if(response.ok){
+                if(updatedResponse.ok){
                 alert('Saved into the server successfully');
                 setFormData(
                     {
@@ -88,9 +134,11 @@ export const Profiles = () =>{
             
         } catch (error) {
             console.error("Error:", error);
+            alert('Error saving profile:' + error.message);
         }
 
     }
+   
     return(
         <Fragment>
             <h1 className="large text-primary">Create Your Profile</h1>

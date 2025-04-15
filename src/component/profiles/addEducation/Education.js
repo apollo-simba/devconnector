@@ -1,11 +1,12 @@
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Fragment } from "react"
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons/faCodeBranch"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 export const Education = () =>{
+    const [userId, setUserId] = useState(null);
     const[formData, setFormData] = useState({
         school: '',
         degree: '',
@@ -16,11 +17,36 @@ export const Education = () =>{
         description: ''
     })
     const{school, degree, fieldOfStudy, fromData, toData, current, description} = formData;
+
+    const fetchUser = async() =>{
+        try {
+            const response = await fetch('http://localhost:3001/user');
+            if(response.ok){
+                const res = await response.json();
+                setUserId(res[0].id);
+            }
+            
+        } catch (error) {
+            console.Error('Unable to fetch the user data');
+        }
+    }
+
+    useEffect(() =>{
+        const loadData = async() =>{
+            await fetchUser();
+        };
+        loadData();
+    }, []);
+
     const handleChange = e =>{
         setFormData({...formData, [e.target.name]: e.target.value});
     }
     const [disabled, toggleDisabled] = useState(false);
     const handleSubmit = async(e) =>{
+        if(! userId){
+            alert('please waiting for loading userId');
+            return ;
+        }
         const newEducation = {
             
             school,
@@ -33,12 +59,24 @@ export const Education = () =>{
         }
         try {
             
-            const response = await fetch('http://localhost:3001/education',{
-                method: 'POST',
+            const response = await fetch(`http://localhost:3001/user/${userId}`);
+            if(!response.ok){
+                throw new Error('Unable to access the userId');
+            }
+
+            const currentData = await response.json();
+
+            const newData = {
+                ...currentData,
+                education: [newEducation]
+            }
+
+            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`,{
+                method: 'PUT',
                 headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(newEducation)
+                body: JSON.stringify(newData)
             })
-            if(response.ok){
+            if(updatedResponse.ok){
                 alert('Saved into the server successfully');
                 setFormData({
                     school: '',

@@ -9,7 +9,7 @@ import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
-export const Registry =()=>{
+export const Registry = () =>{
     
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const[formData, setFormData] = useState({
@@ -17,7 +17,7 @@ export const Registry =()=>{
         email: '',
         password1: '',
         password2: ''
-    })
+    });
     const {name, email, password1, password2} = formData;
     useEffect(() => {
         const isRegistered = JSON.parse(localStorage.getItem('Registration')) || false;
@@ -31,18 +31,19 @@ export const Registry =()=>{
     }
     const handleChange = e => {
         setFormData({...formData, [e.target.name]: e.target.value});
-    } 
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
         // ... (keep your existing validation logic)
-      
         const newUser = {
-          
-          name,
-          email,
-          password: password1 // Remember: Hash this in production!
-        };
+            name,
+            email,
+            password: password1,  
+            profile: [],
+            work_exp: [],
+            education: []
+          };// Remember: Hash this in production!
+        
       
         const res = await fetch('http://localhost:3001/user');
         if(!res.ok){
@@ -56,7 +57,7 @@ export const Registry =()=>{
                 name: '',
                 email: '',
                 password1: '',
-                password2: ''
+                password2: '',
             });
             return ;
         }
@@ -82,7 +83,7 @@ export const Registry =()=>{
         } catch (error) {
           console.error("Error:", error);
         }
-      };
+    };
     return(
         <Fragment>
 

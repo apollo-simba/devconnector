@@ -8,13 +8,13 @@ import Moment from "react-moment"
 
 export const Dashboard = () =>{
     const[userName, setUserName] = useState('');
-    const[userInfo, setUserInfo] = useState([]);
+    const[userInfo, setUserInfo] = useState({});
     const[userExperience, setUserExperience]  = useState([]);
     const[userEducation, setUserEducation] = useState([]);
     const[loading, setLoading] = useState(false);
     const[error, setError] = useState(null);
     const[shouldRedirect, setShouldRedirect] = useState(false);
-
+    const[userId, setUserId] = useState(null);
     const fetchData = async() =>{
         try {
             const response = await fetch(('http://localhost:3001/user'));
@@ -22,35 +22,42 @@ export const Dashboard = () =>{
                 throw new Error('failed to fetch the data');
             }
             const data = await response.json();
-            setUserInfo(data[0]);
-            setUserName(data[data.length-1].name);
+            if(data[0] && data[0].length > 0){
+                
+                setUserInfo(data[0]);
+            }
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
         
+        
+        // Since your data is { user: [...] }, access the first user object
+
     };
     const fetchExperience = async() =>{
         try {
-            const response = await fetch(('http://localhost:3001/work_exp'));
+            const response = await fetch(('http://localhost:3001/user'));
             if(!response.ok){
                 throw new Error('failed to fetch the data');
             }
             const data = await response.json();
-            setUserExperience(data);
+            const user = data.user[0];
+            setUserExperience(user.work_exp);
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
     };
     const fetchEducation = async() =>{
         try {
-            const response = await fetch(('http://localhost:3001/education'));
+            const response = await fetch(('http://localhost:3001/user'));
             if(!response.ok){
                 throw new Error('failed to fetch the data');
             }
             const data = await response.json();
-            setUserEducation(data);
+            const user = data.user[0];
+            setUserEducation(user.education);
         } catch (err) {
-            setError(err);
+            setError(err.message);
         }
  
     };
@@ -79,7 +86,7 @@ export const Dashboard = () =>{
             setLoading(true);
             setError(null);
             try {
-                await Promise.all([fetchData(), fetchExperience(), fetchEducation()]);
+                await fetchData()
             } catch (error) {
                 setError(error.message);
             }finally{
@@ -87,7 +94,7 @@ export const Dashboard = () =>{
             }
         };
         fetchInfo();
-        
+        console.log(userInfo);
         
     }, []);
     
@@ -95,7 +102,7 @@ export const Dashboard = () =>{
 
         try {
         
-            const response = await fetch(`http://localhost:3001/work_exp/${id}`,{
+            const response = await fetch(`http://localhost:3001/user/${id}`,{
                 method: 'DELETE',
                 headers:{'Content-Type':'application/json'}
             });
@@ -113,7 +120,7 @@ export const Dashboard = () =>{
 
         try {
         
-            const response = await fetch(`http://localhost:3001/education/${id}`,{
+            const response = await fetch(`http://localhost:3001/user/${id}`,{
                 method: 'DELETE',
                 headers:{'Content-Type':'applicaiton/json'}
             });
@@ -169,15 +176,16 @@ export const Dashboard = () =>{
                         <th />
                     </tr>
                 </thead>
-                             
+                           
                 <tbody>
-                    {userExperience.map((user) =>(
+                    {userInfo.work_exp && userInfo.work_exp.length > 0 ? (
+                    userInfo.work_exp.map((user) =>(
 
                     <tr key={user.id}>
                         <td>{user.company}</td>
                         <td>{user.job}</td>
                         <td>
-                
+                            
                             <Moment format="YYYY/MM/DD">{user.fromData}</Moment> - {
                                 (user.toData === '') ? (
                                     'Now'
@@ -195,7 +203,12 @@ export const Dashboard = () =>{
                             </button>
                         </td>
                     </tr>
-                    ))}
+                    ))
+                ): (
+                    <tr>
+                        <td colSpan={4}>No experience added yet</td>
+                    </tr>
+                )}
                 </tbody>
             </table>
             <h1 className="lead">Education Credentials</h1>
@@ -209,7 +222,8 @@ export const Dashboard = () =>{
                         </tr>
                     </thead>
                     <tbody>
-                        {userEducation.map((user) =>(
+                        {userInfo.education && userInfo.education.length > 0 ? (
+                            userInfo.education.map((user) =>(
 
                         <tr key={user.id}>
 
@@ -232,7 +246,12 @@ export const Dashboard = () =>{
                                 </button>
                             </td>
                         </tr>
-                        ))}
+                        ))
+                    ): (
+                        <tr>
+                            <td colSpan="4">No education added yet</td>
+                        </tr>
+                    )}
                     </tbody>
                 </table>
                 <button className="btn bg-danger my-2" onClick={() => Delete(userInfo.id)}>
