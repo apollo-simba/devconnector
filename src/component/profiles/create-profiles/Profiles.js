@@ -33,7 +33,7 @@ export const Profiles = () =>{
             instagram: ''
         }
     );
-    const [userName, setUserName] = useState('');
+
     const [userId, setUserId] = useState(null);
     const {status, company, website, location, skills, gitName, proposal, twitter, facebook, youtube, linkedin, instagram} = formData;
 
@@ -44,7 +44,6 @@ export const Profiles = () =>{
            if(response.ok){
                 const res = await response.json();
                 setUserId(res[0].id);
-                setUserName(res[0].name);
            }
            console.log(userId);
        } catch (error) {

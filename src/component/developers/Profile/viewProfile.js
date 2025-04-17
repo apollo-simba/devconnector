@@ -9,17 +9,18 @@ import { ProfileEducation } from "./profileEducation";
 
 
 export const ViewProfile = () =>{
-    const [user, setUser] = useState({});
-    const [userExperience, setUserExperience] = useState([]);
-    const [userEducation, setUserEducation] = useState([]);
+    const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     
-        const fetchUser = async() =>{
+        const fetchUserData = async() =>{
            try {
                const response = await fetch('http://localhost:3001/user');
-               const res = await response.json();
-               setUser(res[0]);
+               if(!response.ok){
+                throw new Error('Unable to the fetch the userData');
+               }
+               const data = await response.json();
+               setUserData(data[data.length-1]);
                
            } catch (err) {
                 setError(err.message);
@@ -27,38 +28,15 @@ export const ViewProfile = () =>{
                 setLoading(false);
            }
         };    
-        const fetchExperience = async() =>{
-            try {
-                const response = await fetch('http://localhost:3001/work_exp');
-                const res = await response.json();
-                setUserExperience(res);
-            } catch (err) {
-                setError(err.message);
-            }finally{
-                setLoading(false);
-            }
-        };
-        const fetchEducation = async() =>{
-            try{
-                const response = await fetch('http://localhost:3001/education');
-                const res = await response.json();
-                setUserEducation(res);
-            }catch(err){
-                setError(err.message);
-            }finally{
-                setLoading(false);
-            }
-        };
-        
+       
         useEffect(() =>{
             const fetchData = async() =>{
                 setLoading(true);
                 setError(null);
                 try {
-                    Promise.all([fetchUser(), fetchExperience(), fetchEducation()]);
-                    
+                    await fetchUserData();                    
                 } catch (error) {
-                    console.log('the error is occured', error);
+                    console.log('The error is occured while loading the user data', error);
                 }finally{
                     setLoading(false);
                 }
@@ -77,13 +55,13 @@ export const ViewProfile = () =>{
 
        <div className='profile-grid my-1'>
         <ProfileTop />
-        <ProfileMedium name={user.name} />
+        <ProfileMedium name={userData.name} />
             <div className="profile-exp bg-white p-2">
                 <h2 className="text-primary">
                     Experience
                 </h2>
-                {userExperience && (
-                   userExperience.map((experience, index) =>(
+                {userData.work_exp && (
+                   userData.work_exp.map((experience, index) =>(
                     <div key={index}>
                     <ProfileExperience experience = {experience} />
                     </div>))
@@ -93,8 +71,8 @@ export const ViewProfile = () =>{
                 <h2 className="text-primary">
                     Education
                 </h2>
-                {userEducation && (
-                    userEducation.map((education, index) =>(
+                {userData.education && (
+                    userData.education.map((education, index) =>(
                         <div key={index}>
                         <ProfileEducation education = {education}/>
                         </div>

@@ -20,6 +20,7 @@
           "gitName": "github",
           "proposal": "dsadad",
           "social": {
+            "website": "",
             "twitter": "",
             "facebook": "",
             "youtube": "",
@@ -32,8 +33,8 @@
         {
           "job": "senior software engineer",
           "company": "Secure Haven LLC",
-          "location": "Vancouver",
-          "fromData": "2025-04-02",
+          "location": "Vancouver, BC",
+          "fromData": "2025-04-16",
           "toData": "",
           "current": true,
           "description": ""
@@ -41,15 +42,16 @@
       ],
       "education": [
         {
-          "school": "the university of Arizona",
-          "degree": "bachelor",
+          "school": "22222",
+          "degree": "dfds",
           "fieldOfStudy": "computer science",
-          "fromData": "2025-04-10",
+          "fromData": "2025-04-09",
           "toData": "",
           "current": true,
-          "description": "Program description"
+          "description": ""
         }
       ]
+      
     }
   ]
 }

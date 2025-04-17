@@ -19,12 +19,18 @@ export const DevelopersItem = ({name, status, location, skills, company}) =>{
                 View Profile
             </Link>
             </div>
+            {console.log(skills)}
+
             <ul>
-                <li className="text-primary">
-                    <FontAwesomeIcon icon={faCheck} className="" />
-                    {skills}
+            {skills.map((skill, index) =>(
+
+                <li className="text-primary" key={index}>
+                    <FontAwesomeIcon icon={faCheck} className="" />  {skill}
                 </li>
+            ))}
+
             </ul>
+      
 
         </div>
     )
@@ -33,7 +39,7 @@ DevelopersItem.propTypes = {
     name: PropTypes.string,
     status: PropTypes.string,
     location:PropTypes.string,
-    skills:PropTypes.string,
+    skills:PropTypes.array,
     company:PropTypes.string
   };
   

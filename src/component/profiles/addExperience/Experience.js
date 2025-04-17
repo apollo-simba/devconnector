@@ -1,5 +1,4 @@
-import React, { use, useEffect, useId } from "react"
-import { useState } from "react"
+import React, {useState, useEffect } from "react"
 import { Fragment } from "react"
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons/faCodeBranch"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -7,7 +6,6 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min"
 
 export const Experience = () =>{
     const [userId, setUserId] = useState(null);
-    const [loading, setLoading] = useState(false);
     const[formData, setFormData] = useState({
         job: '',
         company: '',
@@ -21,7 +19,7 @@ export const Experience = () =>{
 
     const fetchUser = async () => {
         try {
-            setLoading(true);
+           
             const response  = await fetch('http://localhost:3001/user');
             if(response.ok){
                 const res = await response.json();
@@ -31,8 +29,6 @@ export const Experience = () =>{
             console.log(userId);
         } catch (error) {
             console.Error('Unable to fetch the userId', error);
-        }finally{
-            setLoading(false);
         }
     }
 
@@ -49,12 +45,12 @@ export const Experience = () =>{
     const [disabled, toggleDisabled] = useState(false);
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        if(! useId){
+        if(! userId){
             alert('please wait for loading userId');
            
         }
         const newExperience = {
-            
+        
             job,
             company,
             location,
@@ -72,11 +68,12 @@ export const Experience = () =>{
             }
 
             const currentData = await response.json();// 1. get the current state
+            const updatedData = [...(currentData.work_exp || []), newExperience];
             const newUserData = {
                 ...currentData,
-                work_exp: [newExperience]
+                work_exp: updatedData
             }// modify the data you want to update
-
+            console.log(currentData.work_exp);
             const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`, {
     
                 method:'PUT',
@@ -88,6 +85,7 @@ export const Experience = () =>{
             if(updatedResponse.ok){
                 alert('Added the Experience successfully');
                 setFormData({
+                   
                     job: '',
                     company: '',
                     location: '',
@@ -96,12 +94,15 @@ export const Experience = () =>{
                     current: false,
                     description: ''
                 });
+                const res = await updatedResponse.json();
+                console.log(res);
             }
         } catch (error) {
             console.log('The problem is occrued!');
             console.error('Error:', error);
         }
     }
+    
     return(
         <Fragment>
             <h1 className="large text-primary">Add An Experience</h1>

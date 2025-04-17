@@ -11,7 +11,7 @@ import { Education } from "../component/profiles/addEducation/Education"
 import { Developers } from "../component/developers/Developers"
 import { ViewProfile } from "../component/developers/Profile/viewProfile"
 import { Discussion } from "../component/posts/Disscussion"
-import { Discuss } from "../component/posts/Discuss"
+
 
 export const Routes = () =>{
     return(

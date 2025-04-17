@@ -41,7 +41,12 @@ export const Registry = () =>{
             password: password1,  
             profile: [],
             work_exp: [],
-            education: []
+            education: [],
+            createdDate:Date.now(),
+            updatedDate: null,
+            post: [],
+            comment: ''
+            
           };// Remember: Hash this in production!
         
       

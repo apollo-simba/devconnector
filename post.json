@@ -4,6 +4,8 @@
     "post_id":{},
     "post_content":{},
     "post_goodRate":{},
-    "post_badRate":{}
+    "post_badRate":{},
+    "comment": "",
+    "discussion_number": ""
 
 }

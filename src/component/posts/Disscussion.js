@@ -1,4 +1,3 @@
-import { text } from "@fortawesome/fontawesome-svg-core";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { useState } from "react";
@@ -9,81 +8,72 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 
 export const Discussion = () =>{
-    const [userName, setUserName] = useState('');
+    const [userData, setUserData] = useState({});
+    const [userId, setUserId] = useState(null);
     const [text,setText] = useState('');
     const [commentData, setCommentData] = useState([]);
-    const [postData, setPostData] = useState([]);
     const handleChange = e =>{
         setText(e.target.value);
     }
-    const fetchCommentData = async() =>{
-        try {
-            const response = await fetch('http://localhost:3001/comment')
-            if(response.ok){
-                const res = await response.json();
-                setCommentData(res);
-            }
-        } catch (error) {
-            console.error('Not to fetch the data', error);
-        }
-    }
-    const fetchPostData = async() =>{
-        try {
-            
-            const response = await fetch('http://localhost:3001/post');
-            if(response.ok){
-                const res = await response.json();
-                setPostData(res);
-            }
-        } catch (error) {
-            console.log('The error is occured', error);
-        } 
-    };
-    const fetchUser = async() =>{
+    const fetchUserData = async() =>{
         try {
             const response = await fetch('http://localhost:3001/user');
-            if(response.ok){
-                const res = await response.json();
-                setUserName(res[0].name);
+            if(!response.ok){
+                throw new Error ('Unable to fetch the user Data');
             }
+            const data = await response.json();
+            setUserData(data[data.length-1]);
+            setUserId(data[data.length-1].id);
         } catch (error) {
-            console.log('Unable to fetch the user data', error);
+            console.error("Not to fetch the user data", error);
         }
-    }
+    };
 
+    useEffect(() =>{
+        const loadData = async() =>{
+        try {
+                await fetchUserData();
+            } catch (error) {
+                console.error("There is a error while loading user data", error);
+            }
+        };
+        loadData();
+    }, [])
     const handleSubmit = async(e) =>{
         e.preventDefault();
-        const newComment = {
-            text,
-            click: false
-        };
         try {
-            const response = await fetch('http://localhost:3001/comment', {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(newComment)
-            })
-            if(response.ok){
-                const res = await response.json()
-                setCommentData((prevData) => [...prevData, res]);
-                setText('');
+            const newComment = {
+                text
+            };
+    
+            const response = await fetch(`http://localhost:3001/user/${userId}`);
+            if(!response.ok){
+                throw new Error('Unable to get the current data');
             }
+            const currentData = await response.json();
+  
+            const updatedData = {
+                ...currentData,
+                comment: newComment
+            }
+            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`, {
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(updatedData)
+            })
+            if(!updatedResponse.ok){
+                throw new Error('Unable to update the data');
+            }
+            const res = await updatedResponse.json();
+            setUserData(res);
+            setCommentData((prevData) => [...prevData, res.comment]);
+            setText('');
         } catch (error) {
             console.log('Unable to post the data', error);
         }
         
     };
-    useEffect(() =>{
-        const fetchData = async() =>{
-            try {
-                await Promise.all([fetchPostData(), fetchUser(), fetchCommentData()]);
-            } catch (error) {
-                console.error('Not fetch the data', error);
-            }
-        }
-        fetchData();
-    }, [])
-    
+   
     const Cancel = async(id) =>{
         try {
 
@@ -107,7 +97,7 @@ export const Discussion = () =>{
             <div>
 
                 <Link to ='/viewProfile'>
-                <h4 className = 'text-primary' >simba</h4>
+                <h4 className = 'text-primary' >{userData.name}</h4>
                 </Link>
             </div>
             <div>
@@ -134,15 +124,15 @@ export const Discussion = () =>{
             </form>
             {console.log(commentData)}
         </div>
-        {commentData.map((data) => (
-            <div key={data.id} className="post bg-white p-1 my-1">
+        {commentData && commentData.map((data, index) => (
+            <div key={index} className="post bg-white p-1 my-1">
                 <div>
                     <Link to = '/viewProfile' className = 'text-primary'>
-                    {userName}
+                    {userData.name}
                     </Link>
                 </div>
                 <div>
-                    <p className="my-1">{data.text}</p>
+                    <p className="my-1">{data}</p>
                     <p className="post-date">{Date.now()}</p>
                     <button className="btn btn-danger">
                     <FontAwesomeIcon icon={faTimes}  onClick={() => Cancel(data.id)}/>

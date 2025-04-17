@@ -65,10 +65,10 @@ export const Education = () =>{
             }
 
             const currentData = await response.json();
-
+            const updatedEducation = [...(currentData.education || []), newEducation];
             const newData = {
                 ...currentData,
-                education: [newEducation]
+                education: updatedEducation
             }
 
             const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`,{

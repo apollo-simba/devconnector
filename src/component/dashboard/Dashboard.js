@@ -9,8 +9,6 @@ import Moment from "react-moment"
 export const Dashboard = () =>{
     const[userName, setUserName] = useState('');
     const[userInfo, setUserInfo] = useState({});
-    const[userExperience, setUserExperience]  = useState([]);
-    const[userEducation, setUserEducation] = useState([]);
     const[loading, setLoading] = useState(false);
     const[error, setError] = useState(null);
     const[shouldRedirect, setShouldRedirect] = useState(false);
@@ -22,10 +20,9 @@ export const Dashboard = () =>{
                 throw new Error('failed to fetch the data');
             }
             const data = await response.json();
-            if(data[0] && data[0].length > 0){
-                
-                setUserInfo(data[0]);
-            }
+            setUserInfo(data[data.length-1]);
+            setUserId(data[data.length-1].id);
+            setUserName(data[data.length-1].name);
         } catch (err) {
             setError(err.message);
         }
@@ -34,33 +31,7 @@ export const Dashboard = () =>{
         // Since your data is { user: [...] }, access the first user object
 
     };
-    const fetchExperience = async() =>{
-        try {
-            const response = await fetch(('http://localhost:3001/user'));
-            if(!response.ok){
-                throw new Error('failed to fetch the data');
-            }
-            const data = await response.json();
-            const user = data.user[0];
-            setUserExperience(user.work_exp);
-        } catch (err) {
-            setError(err.message);
-        }
-    };
-    const fetchEducation = async() =>{
-        try {
-            const response = await fetch(('http://localhost:3001/user'));
-            if(!response.ok){
-                throw new Error('failed to fetch the data');
-            }
-            const data = await response.json();
-            const user = data.user[0];
-            setUserEducation(user.education);
-        } catch (err) {
-            setError(err.message);
-        }
- 
-    };
+   
 
     const Delete = async(id) =>{
         
@@ -94,45 +65,70 @@ export const Dashboard = () =>{
             }
         };
         fetchInfo();
-        console.log(userInfo);
         
     }, []);
     
-    const handleExperience= async(id) =>{
+    const handleExperience= async(userIndex) =>{
 
         try {
-        
-            const response = await fetch(`http://localhost:3001/user/${id}`,{
-                method: 'DELETE',
-                headers:{'Content-Type':'application/json'}
-            });
-            if(response.ok){
-                alert('Removed the data successfully');
-                setUserExperience(userExperience.filter(exp => exp.id !== id));
-                console.log(userExperience);
+            
+            const response = await fetch(`http://localhost:3001/user/${userId}`);
+            if(!response.ok){
+                throw new Error('Unable to fetch the data');
             }
+            const currentData = await response.json();
+            const updatedExp = currentData.work_exp.filter((_,index) =>(index !== userIndex));
+            const updatedData = {
+                ...currentData,
+                work_exp: updatedExp
+            };
+
+            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`,{
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(updatedData)
+            })
+           if(!updatedResponse.ok){
+            throw new Error('Not to fetch the data');
+           }
+           const res = await updatedResponse.json();
+           setUserInfo(res);
         } catch (error) {
             console.error('Error:', error);
+            alert('Failed to delete experience' + error.message);
         }
 
     }
-    const handleEducation= async(id) =>{
+    const handleEducation= async(userIndex) =>{
 
+           
         try {
-        
-            const response = await fetch(`http://localhost:3001/user/${id}`,{
-                method: 'DELETE',
-                headers:{'Content-Type':'applicaiton/json'}
-            });
-            if(response.ok){
-                alert('Removed the data successfully');
-                setUserEducation(userEducation.filter(exp => exp.id !== id));
-                console.log(userEducation);
+            
+            const response = await fetch(`http://localhost:3001/user/${userId}`);
+            if(!response.ok){
+                throw new Error('Unable to fetch the data');
             }
+            const currentData = await response.json();
+            const updatedEdu = currentData.education.filter((_, index) =>(index !== userIndex));
+            const updatedData = {
+                ...currentData,
+                education: updatedEdu
+            };
+
+            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`,{
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(updatedData)
+            })
+           if(!updatedResponse.ok){
+            throw new Error('Not to fetch the data');
+           }
+           const res = await updatedResponse.json();
+           setUserInfo(res);
         } catch (error) {
             console.error('Error:', error);
         }
-
+    
     }
 
     if (loading) return <div className="loading">Loading data...</div>;
@@ -179,9 +175,9 @@ export const Dashboard = () =>{
                            
                 <tbody>
                     {userInfo.work_exp && userInfo.work_exp.length > 0 ? (
-                    userInfo.work_exp.map((user) =>(
+                    userInfo.work_exp.map((user, index) =>(
 
-                    <tr key={user.id}>
+                    <tr key={index}>
                         <td>{user.company}</td>
                         <td>{user.job}</td>
                         <td>
@@ -198,7 +194,7 @@ export const Dashboard = () =>{
                         <td>
                             <button 
                                 className="btn bg-danger"
-                                onClick={() => handleExperience(user.id)}>
+                                onClick={() => handleExperience(index)}>
                                 Delete
                             </button>
                         </td>
@@ -223,9 +219,9 @@ export const Dashboard = () =>{
                     </thead>
                     <tbody>
                         {userInfo.education && userInfo.education.length > 0 ? (
-                            userInfo.education.map((user) =>(
+                            userInfo.education.map((user, index) =>(
 
-                        <tr key={user.id}>
+                        <tr key={index}>
 
                             <td>{user.school}</td>
                             <td>{user.year}</td>
@@ -241,7 +237,7 @@ export const Dashboard = () =>{
                             <td>
                                 <button
                                     className="btn bg-danger"
-                                    onClick={() => handleEducation(user.id)}>
+                                    onClick={() => handleEducation(index)}>
                                     Delete
                                 </button>
                             </td>
