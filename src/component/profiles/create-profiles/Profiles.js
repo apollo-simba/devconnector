@@ -43,7 +43,7 @@ export const Profiles = () =>{
            const response = await fetch('http://localhost:3001/user');
            if(response.ok){
                 const res = await response.json();
-                setUserId(res[0].id);
+                setUserId(res[res.length-1].id);
            }
            console.log(userId);
        } catch (error) {

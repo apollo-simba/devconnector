@@ -5,7 +5,7 @@ import { Fragment } from "react";
 import { PostMain } from "./PostMain";
 
 export const Posts = () =>{
-    
+
     return(
         <Fragment>
         <h1 className="large text-primary">Posts</h1>

@@ -6,7 +6,7 @@ import { DevelopersItem} from "./DevelopersItem";
 
 
 export const Developers = () => {
-    const [userData, setUserData] = useState({});
+    const [userData, setUserData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -18,7 +18,7 @@ export const Developers = () => {
         }
         const data = await response.json();
         console.log(data.length-1);
-        setUserData(data[data.length-1]);
+        setUserData(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -55,24 +55,26 @@ export const Developers = () => {
           <p className="lead">
             <FontAwesomeIcon icon={faConnectdevelop} /> Browse and connect with developers
           </p>
-         {console.log(userData.length)}
-         {console.log(userData.profile)}
-         {console.log(userData.profile[userData.profile.length-1].status)}
-            { 
-            (<ul>
-              <li>
-             
-                <DevelopersItem 
-                name={userData.name}
-                status={userData.profile[userData.profile.length-1].status}
-                location={userData.profile[userData.profile.length-1].location}
-                skills={userData.profile[userData.profile.length-1].skills}
-                company={userData.profile[userData.profile.length-1].company}
-                />
-              </li>
-            </ul>) 
-            }
-                    
+          { console.log(userData.length)}
+          {console.log(userData)}
+          {userData.length > 0 ?   
+            (
+                userData.map((user) =>(
+                <div key={user.id}>
+                  <DevelopersItem 
+                  name={user.name}
+                  status={user.profile[user.profile.length-1].status}
+                  location={user.profile[user.profile.length-1].location}
+                  skills={user.profile[user.profile.length-1].skills}
+                  company={user.profile[user.profile.length-1].company}
+                  />
+                </div>
+            )
+            )) : (
+              <h4>No profiles found...</h4>
+            )
+          }
+               
         </Fragment>
       );
 };

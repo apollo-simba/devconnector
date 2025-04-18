@@ -7,10 +7,10 @@
       "password": "123456",
       "profile": [
         {
-          "status": "Senior Developer",
+          "status": "Manager",
           "company": "Innos",
           "website": "website",
-          "location": "location",
+          "location": "New York NY",
           "skills": [
             "software engineering",
             "html",
@@ -18,9 +18,8 @@
             "javascript"
           ],
           "gitName": "github",
-          "proposal": "dsadad",
+          "proposal": "why don't I know",
           "social": {
-            "website": "",
             "twitter": "",
             "facebook": "",
             "youtube": "",
@@ -38,6 +37,15 @@
           "toData": "",
           "current": true,
           "description": ""
+        },
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "New York NY",
+          "fromData": "2025-04-08",
+          "toData": "2025-04-25",
+          "current": false,
+          "description": "this is the job description"
         }
       ],
       "education": [
@@ -49,9 +57,50 @@
           "toData": "",
           "current": true,
           "description": ""
+        },
+        {
+          "school": "the university of Arizona",
+          "degree": "bachelor",
+          "fieldOfStudy": "computer science",
+          "fromData": "2025-04-09",
+          "toData": "2025-04-21",
+          "current": false,
+          "description": "this is the program description"
         }
       ]
-      
+    },
+    {
+      "id": "9557",
+      "name": "new",
+      "email": "new@gmail.com",
+      "password": "123456",
+      "profile": [],
+      "work_exp": [
+        {
+          "job": "chief",
+          "company": "restaurant",
+          "location": "Vancouver, BC",
+          "fromData": "2025-04-30",
+          "toData": "",
+          "current": true,
+          "description": "there are many jobs"
+        }
+      ],
+      "education": [
+        {
+          "school": "Binghamton university",
+          "degree": "bachelor",
+          "fieldOfStudy": "computer science",
+          "fromData": "2025-04-30",
+          "toData": "",
+          "current": true,
+          "description": "wewfwfewfewef"
+        }
+      ],
+      "createdDate": 1744963990553,
+      "updatedDate": null,
+      "post": [],
+      "comment": ""
     }
   ]
 }

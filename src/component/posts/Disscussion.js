@@ -1,52 +1,46 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
 export const Discussion = () =>{
-    const [userData, setUserData] = useState({});
-    const [userId, setUserId] = useState(null);
+    const {id} = useParams();
+    const [postData, setPostData] = useState({});
     const [text,setText] = useState('');
-    const [commentData, setCommentData] = useState([]);
     const handleChange = e =>{
         setText(e.target.value);
     }
-    const fetchUserData = async() =>{
+    const fetchPostData = async() =>{
         try {
-            const response = await fetch('http://localhost:3001/user');
+            const response = await fetch(`http://localhost:3003/post/${id}`);
             if(!response.ok){
                 throw new Error ('Unable to fetch the user Data');
             }
             const data = await response.json();
-            setUserData(data[data.length-1]);
-            setUserId(data[data.length-1].id);
+            setPostData(data);
+           
         } catch (error) {
             console.error("Not to fetch the user data", error);
         }
     };
-
+ 
     useEffect(() =>{
         const loadData = async() =>{
         try {
-                await fetchUserData();
+                await fetchPostData();
             } catch (error) {
                 console.error("There is a error while loading user data", error);
             }
         };
         loadData();
-    }, [])
+    }, [id]);
     const handleSubmit = async(e) =>{
         e.preventDefault();
         try {
-            const newComment = {
-                text
-            };
-    
-            const response = await fetch(`http://localhost:3001/user/${userId}`);
+            const response = await fetch(`http://localhost:3003/post/${id}`);
             if(!response.ok){
                 throw new Error('Unable to get the current data');
             }
@@ -54,9 +48,10 @@ export const Discussion = () =>{
   
             const updatedData = {
                 ...currentData,
-                comment: newComment
-            }
-            const updatedResponse = await fetch(`http://localhost:3001/user/${userId}`, {
+                discussion_comment: [...currentData.discussion_comment, text],
+                discussion_count: currentData.discussion_count + 1
+            };
+            const updatedResponse = await fetch(`http://localhost:3003/post/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify(updatedData)
@@ -65,8 +60,7 @@ export const Discussion = () =>{
                 throw new Error('Unable to update the data');
             }
             const res = await updatedResponse.json();
-            setUserData(res);
-            setCommentData((prevData) => [...prevData, res.comment]);
+            setPostData(res);
             setText('');
         } catch (error) {
             console.log('Unable to post the data', error);
@@ -74,15 +68,31 @@ export const Discussion = () =>{
         
     };
    
-    const Cancel = async(id) =>{
+    const Cancel = async(discussion_index) =>{
         try {
-
-            const response = await fetch(`http://localhost:3001/comment/${id}`, {
-                method: 'DELETE',
-                headers: {'Content-Type':'application/json'}
-            })
-            if(response.ok){
-                setCommentData((prevData) => prevData.filter(data => data.id !== id));
+            const response = await fetch(`http://localhost:3003/post/${id}`);
+            if(!response.ok){
+                throw new Error('Failed to get the current data');    
+            }
+            const currentData = await response.json();
+            const updatedData = currentData.discussion_comment.filter((_, index) => index !== discussion_index);
+           
+            const newData = {
+                ...currentData,
+                discussion_comment: updatedData
+            };
+            setPostData(newData);
+          
+            const updatedResponse = await fetch(`http://localhost:3003/post/${id}`,
+                {
+                    method: 'PUT',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify(newData)
+                }
+            )
+            if(updatedResponse.ok){
+                const res = await updatedResponse.json();
+                setPostData(res);
             }
         } catch (error) {
             console.log('Unable to cancel the data', error);
@@ -95,21 +105,20 @@ export const Discussion = () =>{
         </Link>
         <div className="post bg-white p-1 my-1">
             <div>
-
                 <Link to ='/viewProfile'>
-                <h4 className = 'text-primary' >{userData.name}</h4>
+                <h4 className = 'text-primary' >{postData.user_name}</h4>
                 </Link>
             </div>
             <div>
-                <p className="my-1">djkslfj</p>
+                <p className="my-1">{postData.post_content}</p>
                 <p className="post-date">Post on {Date.now()}</p>
             </div>
         </div>
-        <div className="post-form" onSubmit={e => handleSubmit(e)}>
+        <div className="post-form" >
             <div className="bg-primary p">
                 <h3 className="bg-primary">Leave a Comment</h3>
             </div>
-            <form className="form my-1">
+            <form className="form my-1" onSubmit={e => handleSubmit(e)}>
                 <textarea
                     name="Create a comment"
                     value={text}
@@ -122,20 +131,20 @@ export const Discussion = () =>{
                 Submit
             </button>
             </form>
-            {console.log(commentData)}
+         
         </div>
-        {commentData && commentData.map((data, index) => (
+        {postData.discussion_comment && postData.discussion_comment.map((data, index) => (
             <div key={index} className="post bg-white p-1 my-1">
                 <div>
                     <Link to = '/viewProfile' className = 'text-primary'>
-                    {userData.name}
+                    {postData.name}
                     </Link>
                 </div>
                 <div>
                     <p className="my-1">{data}</p>
                     <p className="post-date">{Date.now()}</p>
                     <button className="btn btn-danger">
-                    <FontAwesomeIcon icon={faTimes}  onClick={() => Cancel(data.id)}/>
+                    <FontAwesomeIcon icon={faTimes}  onClick={() => Cancel(index)}/>
                     </button>
                 </div>
             </div>

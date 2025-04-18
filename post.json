@@ -1,11 +1,3 @@
 {
-    "user_id":{},
-    "user_name":{},
-    "post_id":{},
-    "post_content":{},
-    "post_goodRate":{},
-    "post_badRate":{},
-    "comment": "",
-    "discussion_number": ""
-
+  "post": []
 }

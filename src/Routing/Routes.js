@@ -27,7 +27,7 @@ export const Routes = () =>{
                 <Route exact path = '/addExperience' component = {Experience}/>
                 <Route exact path = '/addEducation' component = {Education}/>
                 <Route exact path = '/viewProfile' component = {ViewProfile}/>
-                <Route exact path = '/discussion' component = {Discussion} />
+                <Route exact path = '/posts/:id' component = {Discussion} />
                 {/* <Route exact path = '/posts/:id' component = {Disscuss} /> */}
             </Switch>
        

@@ -14,6 +14,7 @@ export const PostMain = () =>{
     const[userId, setUserId] = useState(null);
     const[userName, setUserName] = useState('');
     const[userData, setUserData] = useState('');
+    const[postData, setPostData] = useState([]);
     const[content , setContent] = useState('');
     const handleChange = e =>{
         setContent(e.target.value);
@@ -27,7 +28,6 @@ export const PostMain = () =>{
                 setUserData(data[data.length-1]);
                 setUserName(data[data.length-1].name);
                 setUserId(data[data.length-1].id);
-                // setUpdatedInfo(data[data.length-1]);
             }
             
         } catch (error) {
@@ -35,12 +35,23 @@ export const PostMain = () =>{
         }
     };
 
+    const fetchPost = async() =>{
+        try {
+            const response = await fetch('http://localhost:3003/post');
+            if(response.ok){
+                const res = await response.json();
+                setPostData(res);
+            }
+        } catch (error) {
+            console.log('Unable to fetch the post data', error);
+        }
+    };
     useEffect(() =>{
         const loadData = async() =>{
             try {
-                await fetchUser();
+                await Promise.all([fetchUser(), fetchPost()]);
             } catch (error) {
-                console.Error('The Error is occured', error);
+                console.Error('The Error is occured while fetching the data', error);
             }
         };
         loadData();
@@ -48,37 +59,27 @@ export const PostMain = () =>{
     const handleSubmit = async(e) =>{   
         e.preventDefault();
         const newPost = {
-            // user_id: userId,
-            // user_name: userName,
+            user_id: userId,
+            user_name: userName,
             post_content : content,
-            post_click: false,
             post_goodRate: 0,
             post_badRate: 0,
-            comment: '',
-            discussion_number: 0
+            post_click: false,
+            discussion_comment: [],
+            discussion_count: 0
         }
-        try {
-            console.log(userId)
-            const response = await fetch(`http://localhost:3001/user/${userId}`);
-            if(!response.ok){
-                throw new Error('Unable to fetch the user data');
-            }
-            const currentData = await response.json();
-            const updatedData = {
-                ...currentData,
-               post: [...(currentData.post || {}), newPost]
-            };
-            setUserData(updatedData);
-            const updatedResponse = await fetch (`http://localhost:3001/user/${userId}`,{
-                method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(updatedData)
+        try {   
+            const response = await fetch('http://localhost:3003/post',{
+                method: 'POST',
+                headers: {'Content-Type':'application.json'},
+                body: JSON.stringify(newPost)
             });
-           if(response.ok){
-            const post = await updatedResponse.json();
-            setUserData(post);
+            if(!response.ok){
+                throw new Error('Unable to create the user data in the post json');
+            }
+            const res = await response.json();
+            setPostData(prev => [...prev, res]);
             setContent('');
-           }
         } catch (err) {
             console.log(err.message);
             alert('Unable to the server' +err.message);
@@ -88,77 +89,71 @@ export const PostMain = () =>{
     const Cancel = async(id) =>{
         console.log(`Attempting to delete post with ID: ${id}`); 
         try {  
-           const filteredPosts = userData.post.filter((_, index) => (index !== id))
-            // postData.filter((_, index) =>(index !== id));
-            const newInfo = {
-                ...userData,
-                post: filteredPosts
-            }
-            setUserData(prev => ({
-                ...prev,
-                post: filteredPosts
-            }));
-            const response = await fetch(`http://localhost:3001/user/${userId}`,{
-                method: 'PUT',
+      
+            setPostData(prev => prev.filter(post => post.id !== id));
+            const response = await fetch(`http://localhost:3003/post/${id}`,{
+                method: 'DELETE',
                 headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(newInfo)
             });
             if(!response.ok){
                 throw new Error('Unable to update the user data');
             }
             const res = await response.json();
-            setUserData(res);
+            // setPostData(res);
         } catch (error) {
             console.log(error.message);
         }
     };
-    const handleSet = async(postIndex) =>{
+    // 
+    const handleSet = async(id) => {
         try {
-                const updatedUser  = {...userData};
-                const currentGood_Rate = userData.post[postIndex].post_goodRate;
-                updatedUser.post[postIndex].post_goodRate = currentGood_Rate + 1;
-                setUserData(updatedUser);
-
-                const response =  await fetch(`http://localhost:3001/user/${userId}`,
-                    {
-                        method: 'PUT',
-                        headers: {'Content-Type':'application/json'},
-                        body: JSON.stringify(updatedUser)
-                    }
-                )
-                if(!response.ok){
-                    throw new Error('Unable to update the data');
-                }
-                const res = await response.json();
-                setUserData(res);
-            } catch (error) {
-                console.error("the error is occured", error);
-                alert('there is a prpblem'+ error.message);
-                // setUserData(prev => ({ ...prev }));
-            }
-
-    };
-
-    const handleReset = async(postIndex) =>{
-        try {
-
-            const updatedInfo = {...userData};
-
-            const currentBad_Rate = updatedInfo.post[postIndex].post_badRate;
-            updatedInfo.post[postIndex].post_badRate = currentBad_Rate - 1;
-
-            setUserData(updatedInfo);
-            
-            const response = await fetch(`http://localhost:3001/user/${userId}`,{
+            setPostData(prev => prev.map(post => 
+                post.id === id 
+                    ? {...post, post_goodRate: (post.post_goodRate || 0) + 1}
+                    : post
+            ));
+    
+            const response = await fetch(`http://localhost:3003/post/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(updatedInfo)
-            })
-            if(!response.ok){
-                throw new Error('Failed to update');
+                body: JSON.stringify({
+                    ...postData.find(p => p.id === id),
+                    post_goodRate: (postData.find(p => p.id === id).post_goodRate || 0) + 1
+                })
+            });
+    
+            if(!response.ok) {
+                throw new Error('Failed to update server');
             }
-            const res = await response.json();
-            setUserData(res);
+        } catch (error) {
+            console.error("Update error:", error);
+            // Revert UI if API fails
+            setPostData(prev => [...prev]);
+        }
+    };
+
+    const handleReset = async(id) =>{
+        try {
+
+           setPostData(prev => prev.map(post =>
+            post.id === id
+            ? {...post , post_badRate: (post.post_badRate || 0) - 1}
+            : post
+           ))
+           const response = await fetch(`http://localhost:3003/post/${id}`,
+            {
+                method: 'PUT',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(
+                {...postData.find(prev => prev.id === id),
+                    post_badRate: (postData.find(prev => prev.id === id).post_badRate || 0) - 1
+                }
+                )
+            }                                                                                                                                                                               
+            )                                                                                                                               
+            if(response.ok){
+                const res = await response.json();
+            }
         } catch (error) {
             console.log('The error is occured', error);
             // setUserData(prev => ({ ...prev }));
@@ -187,12 +182,12 @@ export const PostMain = () =>{
 
             </form>
             
-                {userData.post && (userData.post.map((post, index) =>(
+                {postData && (postData.map((post, index) =>(
                     <div key={index}>
 
                         <div className="post bg-white p-1 my-2">
                             <div>
-                                <h4 className="text-primary">{userData.name}</h4>
+                                <h4 className="text-primary">{post.user_name}</h4>
                             </div>
                             <div>
                             
@@ -201,18 +196,23 @@ export const PostMain = () =>{
                                     Posted on <Moment format="YYYY/MM/DD">{Date.now()}</Moment>
                                 </p>
                                 <div>
-                                    <button className="btn btn-light" type="button" onClick={() => handleSet(index)}>
+                                    <button className="btn btn-light" type="button" onClick={() => handleSet(post.id)}>
                                         
                                         <FontAwesomeIcon icon={faThumbsUp} className="fa-1.5x"/>
                                         <span>{post.post_goodRate || ''}</span>
                                     </button>
                                     
-                                    <button className="btn btn-light" type="button" onClick={() => handleReset(index)}>
+                                    <button className="btn btn-light" type="button" onClick={() => handleReset(post.id)}>
                                         <FontAwesomeIcon icon={faThumbsDown} className="fa-1.5x"/>
                                         <span>{post.post_badRate || ''}</span>
                                     </button>
-                                    <Link to = '/discussion' className = "btn btn-primary">Discussion </Link>
-                                    <button className="btn btn-danger" onClick={() => Cancel(index)}>
+                                    <Link to = {`/posts/${post.id}`} className = "btn btn-primary">Discussion{' '}
+                                    {post.discussion_count ? (
+                                        <span className="comment-count">{post.discussion_count}</span>
+                                    ) : (
+                                        <span>{' '}</span>
+                                    )}</Link>
+                                    <button className="btn btn-danger" onClick={() => Cancel(post.id)}>
                                         <FontAwesomeIcon icon={faTimes} />
                                     </button>
                                 </div>
