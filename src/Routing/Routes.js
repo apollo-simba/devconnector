@@ -11,6 +11,7 @@ import { Education } from "../component/profiles/addEducation/Education"
 import { Developers } from "../component/developers/Developers"
 import { ViewProfile } from "../component/developers/Profile/viewProfile"
 import { Discussion } from "../component/posts/Disscussion"
+import { EditProfiles} from "../component/profiles/create-profiles/EditProfiles"
 
 
 export const Routes = () =>{
@@ -26,9 +27,9 @@ export const Routes = () =>{
                 <Route exact path = '/create-profiles' component = {Profiles}/>
                 <Route exact path = '/addExperience' component = {Experience}/>
                 <Route exact path = '/addEducation' component = {Education}/>
-                <Route exact path = '/viewProfile' component = {ViewProfile}/>
+                <Route exact path = '/developers/:id' component = {ViewProfile}/>
                 <Route exact path = '/posts/:id' component = {Discussion} />
-                {/* <Route exact path = '/posts/:id' component = {Disscuss} /> */}
+                <Route exact path = '/editProfiles' component = {EditProfiles} />
             </Switch>
        
         </section>

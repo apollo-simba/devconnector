@@ -3,22 +3,22 @@ import { faGlobe } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useState, useEffect } from "react";
+import PropTypes from 'prop-types';
 
 
-
-export const ProfileTop = () =>{
+export const ProfileTop = ({id}) =>{
     const [userData, setUserData] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const fetchUser = async () => {
       try {
-        const response = await fetch('http://localhost:3001/user');
+        const response = await fetch(`http://localhost:3001/user/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        setUserData(data[data.length-1]);
+        setUserData(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -43,7 +43,7 @@ export const ProfileTop = () =>{
 
     if (loading) return <div className="loading">Loading profiles...</div>;
     if (error) return <div className="error">Error: {error}</div>;  
-
+   
     return(
         <>
         <div className="profile-top bg-primary p-2 my-1">
@@ -93,4 +93,11 @@ export const ProfileTop = () =>{
        
         </>
     )
+
+  
+
 }
+ProfileTop.propTypes = {
+  id: PropTypes.string
+};
+

@@ -3,16 +3,29 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-
+import Moment from "react-moment";
 
 
 export const Discussion = () =>{
     const {id} = useParams();
     const [postData, setPostData] = useState({});
+    const [postName, setPostName] = useState('');
     const [text,setText] = useState('');
     const handleChange = e =>{
         setText(e.target.value);
     }
+    const fetchUser = async() =>{
+        try {
+            const response = await fetch('http://localhost:3001/user');
+            if(response.ok){
+                const res = await response.json();
+                setPostName(res[res.length-1].name);
+            }
+        } catch (error) {
+            console.log('Failed to get the user data', error);
+        }
+    };
+
     const fetchPostData = async() =>{
         try {
             const response = await fetch(`http://localhost:3003/post/${id}`);
@@ -26,11 +39,11 @@ export const Discussion = () =>{
             console.error("Not to fetch the user data", error);
         }
     };
- 
+
     useEffect(() =>{
         const loadData = async() =>{
         try {
-                await fetchPostData();
+                await Promise.all([fetchUser(), fetchPostData()]);
             } catch (error) {
                 console.error("There is a error while loading user data", error);
             }
@@ -79,7 +92,8 @@ export const Discussion = () =>{
            
             const newData = {
                 ...currentData,
-                discussion_comment: updatedData
+                discussion_comment: updatedData,
+                discussion_count: currentData.discussion_count - 1
             };
             setPostData(newData);
           
@@ -111,7 +125,9 @@ export const Discussion = () =>{
             </div>
             <div>
                 <p className="my-1">{postData.post_content}</p>
-                <p className="post-date">Post on {Date.now()}</p>
+                <p className="post-date">Post on {' '}
+                    <Moment format = "YYYY/MM/DD">{Date.now()}</Moment>
+                </p>
             </div>
         </div>
         <div className="post-form" >
@@ -133,16 +149,19 @@ export const Discussion = () =>{
             </form>
          
         </div>
+        {console.log(postName)}
         {postData.discussion_comment && postData.discussion_comment.map((data, index) => (
             <div key={index} className="post bg-white p-1 my-1">
                 <div>
                     <Link to = '/viewProfile' className = 'text-primary'>
-                    {postData.name}
+                    {postName}
                     </Link>
                 </div>
                 <div>
                     <p className="my-1">{data}</p>
-                    <p className="post-date">{Date.now()}</p>
+                    <p className="post-date">
+                        <Moment format="YYYY/MM/DD">{Date.now()}</Moment>
+                    </p>
                     <button className="btn btn-danger">
                     <FontAwesomeIcon icon={faTimes}  onClick={() => Cancel(index)}/>
                     </button>

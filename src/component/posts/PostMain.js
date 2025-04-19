@@ -13,7 +13,6 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons"
 export const PostMain = () =>{
     const[userId, setUserId] = useState(null);
     const[userName, setUserName] = useState('');
-    const[userData, setUserData] = useState('');
     const[postData, setPostData] = useState([]);
     const[content , setContent] = useState('');
     const handleChange = e =>{
@@ -25,7 +24,7 @@ export const PostMain = () =>{
             const response = await fetch('http://localhost:3001/user');
             if(response.ok){
                 const data = await response.json();
-                setUserData(data[data.length-1]);
+               
                 setUserName(data[data.length-1].name);
                 setUserId(data[data.length-1].id);
             }
@@ -98,7 +97,6 @@ export const PostMain = () =>{
             if(!response.ok){
                 throw new Error('Unable to update the user data');
             }
-            const res = await response.json();
             // setPostData(res);
         } catch (error) {
             console.log(error.message);
@@ -151,12 +149,12 @@ export const PostMain = () =>{
                 )
             }                                                                                                                                                                               
             )                                                                                                                               
-            if(response.ok){
-                const res = await response.json();
+            if(!response.ok){
+                throw new Error('Unable to update the data');
             }
         } catch (error) {
             console.log('The error is occured', error);
-            // setUserData(prev => ({ ...prev }));
+       
         }
     }
     return(

@@ -17,7 +17,6 @@ export const Developers = () => {
           throw new Error('Failed to fetch data');
         }
         const data = await response.json();
-        console.log(data.length-1);
         setUserData(data);
       } catch (err) {
         setError(err.message);
@@ -55,13 +54,13 @@ export const Developers = () => {
           <p className="lead">
             <FontAwesomeIcon icon={faConnectdevelop} /> Browse and connect with developers
           </p>
-          { console.log(userData.length)}
-          {console.log(userData)}
+  
           {userData.length > 0 ?   
             (
                 userData.map((user) =>(
                 <div key={user.id}>
                   <DevelopersItem 
+                  id = {user.id}
                   name={user.name}
                   status={user.profile[user.profile.length-1].status}
                   location={user.profile[user.profile.length-1].location}

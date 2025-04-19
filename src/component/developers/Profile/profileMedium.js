@@ -5,19 +5,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 
-export const ProfileMedium = ({name}) =>{
+export const ProfileMedium = ({id, name}) =>{
     const [userData, setUserData] = useState({});
     const[loading, setLoading] = useState(false);
     const[error, setError] = useState(null);
     const fetchUserData = async() =>{
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3001/user');
+            const response = await fetch(`http://localhost:3001/user/${id}`);
             if(!response.ok){
                 throw new Error('Unable to fetch the UserData');
             }
             const data = await response.json();    
-            setUserData(data[data.length-1]); 
+            setUserData(data); 
             
         } catch (err) {
         setError(err.message);
@@ -47,8 +47,7 @@ export const ProfileMedium = ({name}) =>{
     return(
        <>
             <div className='profile-about bg-light p-2'>
-                {console.log(name)}
-                {console.log(userData.profile)}
+               
                 {name && userData.profile && (
                 <>
                     <h2 className="lead text-primary">
@@ -79,8 +78,10 @@ export const ProfileMedium = ({name}) =>{
 }
 
 ProfileMedium.propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
+    id: PropTypes.string
 };
 ProfileMedium.defaultTypes = {
-    name:''
+    name:'',
+    id:''
 };

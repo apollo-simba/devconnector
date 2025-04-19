@@ -12,20 +12,28 @@ export const Login = () =>{
     const [data, setData] = useState([]);
     const {email, password} = formData;
     const [shouldRedirect, setShouldRedirect] = useState(false);
+    // const [filteredEmail, setfilteredEmail] = useState(null);
     const fetchData = async() =>{
         try {
             const response = await fetch(('http://localhost:3001/user'));
             if(response.ok){
                 const res = await response.json();
-                setData(res[0].email);
+                setData(res);
             }
         } catch (error) {
             console.error('The error is occured', error);
-            setData('the email does not exist');
+           
         }
     }   
     useEffect(() =>{
-        fetchData();   
+        const loadData = async() =>{
+           try {
+                await fetchData(); 
+           } catch (error) {
+                console.log(error.message);
+           } 
+        }
+        loadData();
     }, []);
     
     const handleChange = e =>{
@@ -34,11 +42,20 @@ export const Login = () =>{
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
+        console.log(data);
+        console.log(formData.email);
+        const filteredUser = data.find(user =>
+          user.email === formData.email
+        );
         
-        if(formData.email === data){
+        if(filteredUser){
+            console.log(filteredUser);
             setShouldRedirect(true);
+            localStorage.setItem('UserName', filteredUser.name);
         }
-        alert('The email is not existed');
+        else{
+            alert('The email is not existed');
+        }
     };
 
     if(shouldRedirect) {

@@ -15,7 +15,8 @@ import { faInstagram } from "@fortawesome/free-brands-svg-icons/faInstagram"
 
 
 
-export const Profiles = () =>{
+export const EditProfiles = () =>{
+    const [userData, setUserData] = useState({});
     const[formData, setFormData] = useState(
         {
             status : '',
@@ -34,27 +35,47 @@ export const Profiles = () =>{
     );
 
     const [userId, setUserId] = useState(null);
-    const {status, company, website, location, skills, gitName, proposal, twitter, facebook, youtube, linkedin, instagram} = formData;
-
+    
     const fetchUser = async() =>{
-       try {
-           const response = await fetch('http://localhost:3001/user');
-           if(response.ok){
+        try {
+            const response = await fetch('http://localhost:3001/user');
+            if(response.ok){
                 const res = await response.json();
+                setUserData(res);
                 setUserId(res[res.length-1].id);
-           }
+                // setFormData(res)
+                setFormData({
+                    company: !res[res.length-1].profile[0].company ? '' : res[res.length-1].profile[0].company,
+                    website: !res[res.length-1].profile[0].website ? '' : res[res.length-1].profile[0].website,
+                    location: !res[res.length-1].profile[0].location ? '' : res[res.length-1].profile[0].location,
+                    status: !res[res.length-1].profile[0].status ? '' : res[res.length-1].profile[0].status,
+                    skills: !res[res.length-1].profile[0].skills ? '' : res[res.length-1].profile[0].skills.join(','),
+                    proposal: !res[res.length-1].profile[0].proposal ? '' : res[res.length-1].profile[0].proposal,
+                    gitName : !res[res.length-1].profile[0].gitName ? '' : res[res.length-1].profile[0].gitName,
+                    twitter: !res[res.length-1].profile[0].social ? '' : res[res.length-1].profile[0].social.twitter,
+                    facebook: !res[res.length-1].profile[0].social ? '' : res[res.length-1].profile[0].social.facebook,
+                    linkedin: !res[res.length-1].profile[0].social ? '' : res[res.length-1].profile[0].social.linkedin,
+                    youtube: !res[res.length-1].profile[0].social ? '' : res[res.length-1].profile[0].social.youtube,
+                    instagram:
+                    !res[res.length-1].profile[0].social ? '' : res[res.length-1].profile[0].social.instagram,
+                });
+                console.log(res[res.length-1]);
+            }
         } catch (error) {
-                console.error('Unable to fetch the userInfo', error);
+            console.error('Unable to fetch the userInfo', error);
         }
     };
-
+    
     useEffect(() =>{
         const loadData = async() =>{
             await fetchUser();
         };
         loadData();
+        console.log(formData);
+        
     }, []);
-
+    
+    const {status, company, website, location, skills, gitName, proposal, twitter, facebook, youtube, linkedin, instagram} = formData;
     const handleChange = e =>{
 
         setFormData({...formData, [e.target.name]: e.target.value});
@@ -133,7 +154,7 @@ export const Profiles = () =>{
    
     return(
         <Fragment>
-            <h1 className="large text-primary">Create Your Profile</h1>
+            <h1 className="large text-primary">Edit Your Profile</h1>
             <p className="lead">
                 <FontAwesomeIcon icon={faUser}/>  Let's get some information to make your profile stand out
             </p>

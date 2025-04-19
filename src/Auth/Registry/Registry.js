@@ -44,8 +44,6 @@ export const Registry = () =>{
             education: [],
             createdDate:Date.now(),
             updatedDate: null,
-            post: [],
-            comment: ''
             
           };// Remember: Hash this in production!
         
@@ -76,6 +74,7 @@ export const Registry = () =>{
       
           if (response.ok) {
             localStorage.setItem('Registration', true);
+            localStorage.setItem('UserName', name);
             alert("User saved to db.json!");
             setFormData({
                 name: '',

@@ -1,7 +1,7 @@
 {
   "user": [
     {
-      "id": "df88",
+      "id": "9a50",
       "name": "simba",
       "email": "simba@gmail.com",
       "password": "123456",
@@ -18,7 +18,113 @@
             "javascript"
           ],
           "gitName": "github",
-          "proposal": "why don't I know",
+          "proposal": "11111111111111",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "New York NY",
+          "fromData": "2025-04-02",
+          "toData": "",
+          "current": true,
+          "description": "ddsfsfds"
+        }
+      ],
+      "education": [
+        {
+          "school": "the university of Arizona",
+          "degree": "bachelor",
+          "fieldOfStudy": "computer science",
+          "fromData": "2025-04-10",
+          "toData": "",
+          "current": true,
+          "description": "fsfsdfssfsf"
+        }
+      ],
+      "createdDate": 1745008996126,
+      "updatedDate": null
+    },
+    {
+      "id": "3494",
+      "name": "Martin Orlando",
+      "email": "0xwoddnder0904@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Developer",
+          "company": "Innos",
+          "website": "123123",
+          "location": "Vancouver, BC",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "asdsd",
+          "proposal": "dadavev",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "teacher",
+          "company": "Innos",
+          "location": "New York NY",
+          "fromData": "2025-04-11",
+          "toData": "",
+          "current": true,
+          "description": " wqcqcq"
+        }
+      ],
+      "education": [
+        {
+          "school": "the university of Arizona",
+          "degree": "bachelor",
+          "fieldOfStudy": "computer science",
+          "fromData": "2025-04-08",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "createdDate": 1745009072382,
+      "updatedDate": null
+    },
+    {
+      "id": "f3d3",
+      "name": "Yuming Dai",
+      "email": "Yuming Dai@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Junior Developer",
+          "company": "Innos",
+          "website": "website",
+          "location": "New York NY",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "github",
+          "proposal": "hjkhklhlk",
           "social": {
             "twitter": "",
             "facebook": "",
@@ -33,74 +139,160 @@
           "job": "senior software engineer",
           "company": "Secure Haven LLC",
           "location": "Vancouver, BC",
-          "fromData": "2025-04-16",
-          "toData": "",
-          "current": true,
-          "description": ""
-        },
-        {
-          "job": "senior software engineer",
-          "company": "Secure Haven LLC",
-          "location": "New York NY",
-          "fromData": "2025-04-08",
-          "toData": "2025-04-25",
-          "current": false,
-          "description": "this is the job description"
-        }
-      ],
-      "education": [
-        {
-          "school": "22222",
-          "degree": "dfds",
-          "fieldOfStudy": "computer science",
           "fromData": "2025-04-09",
           "toData": "",
           "current": true,
-          "description": ""
-        },
+          "description": "ssnsgf"
+        }
+      ],
+      "education": [
         {
           "school": "the university of Arizona",
           "degree": "bachelor",
           "fieldOfStudy": "computer science",
           "fromData": "2025-04-09",
-          "toData": "2025-04-21",
-          "current": false,
-          "description": "this is the program description"
+          "toData": "",
+          "current": true,
+          "description": "sbnssnsnsnsnnssn"
         }
-      ]
+      ],
+      "createdDate": 1745013052841,
+      "updatedDate": null
     },
     {
-      "id": "9557",
-      "name": "new",
-      "email": "new@gmail.com",
+      "id": "d839",
+      "name": "server",
+      "email": "server@gmail.com",
       "password": "123456",
-      "profile": [],
-      "work_exp": [
+      "profile": [
         {
-          "job": "chief",
-          "company": "restaurant",
+          "status": "Senior Developer",
+          "company": "Secure Haven LLC",
+          "website": "website",
           "location": "Vancouver, BC",
-          "fromData": "2025-04-30",
-          "toData": "",
-          "current": true,
-          "description": "there are many jobs"
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "github",
+          "proposal": "ghgghghghgh",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
         }
       ],
-      "education": [
+      "work_exp": [],
+      "education": [],
+      "createdDate": 1745013383745,
+      "updatedDate": null
+    },
+    {
+      "id": "4186",
+      "name": "Zhang Shuaijian",
+      "email": "Zhang Shuaijian@gmail.com",
+      "password": "123456",
+      "profile": [
         {
-          "school": "Binghamton university",
-          "degree": "bachelor",
-          "fieldOfStudy": "computer science",
-          "fromData": "2025-04-30",
-          "toData": "",
-          "current": true,
-          "description": "wewfwfewfewef"
+          "status": "Senior Developer",
+          "company": "Innos",
+          "website": "website",
+          "location": "Vancouver, BC",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript",
+            "java"
+          ],
+          "gitName": "github",
+          "proposal": "a short bio of yourself",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
         }
       ],
-      "createdDate": 1744963990553,
-      "updatedDate": null,
-      "post": [],
-      "comment": ""
+      "work_exp": [],
+      "education": [],
+      "createdDate": 1745043393069,
+      "updatedDate": null
+    },
+    {
+      "id": "ca8c",
+      "name": "positive",
+      "email": "positive@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Manager",
+          "company": "Secure Haven LLC",
+          "website": "website",
+          "location": "New York NY",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript",
+            "java",
+            "python"
+          ],
+          "gitName": "11111111111111111111111111",
+          "proposal": "223323232",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [],
+      "education": [],
+      "createdDate": 1745043753381,
+      "updatedDate": null
+    },
+    {
+      "id": "0c20",
+      "name": "final",
+      "email": "final@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Manager",
+          "company": "",
+          "website": "",
+          "location": "",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "",
+          "proposal": "",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [],
+      "education": [],
+      "createdDate": 1745064582596,
+      "updatedDate": null
     }
   ]
 }

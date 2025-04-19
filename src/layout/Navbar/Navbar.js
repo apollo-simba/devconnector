@@ -46,7 +46,7 @@ export const Navbar = () =>{
                 <FontAwesomeIcon icon={faUser}/>  Dashboard</Link>
             </li>
             <li>
-                <a onClick={Logout} href='/'>
+                <a onClick={Logout} href='/login'>
                 <FontAwesomeIcon icon={faSignOutAlt}/>  Logout
                 </a>
             </li>

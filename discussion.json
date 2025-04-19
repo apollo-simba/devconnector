@@ -1,8 +1,12 @@
 {
-    "user_id":{},
-    "user_name":{},
-    "user": [],
-    "post_id":{},
-    "post_content":{},
-    "discussion_comment":{}
+    "discussion":[
+        {
+            "user_id": null,
+            "post_id": null,
+            "user_name":"",
+            "discussion_comment":"",
+            "createdData":""
+        }
+        
+    ]
 }
