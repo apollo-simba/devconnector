@@ -18,19 +18,22 @@ export const Education = () =>{
     })
     const{school, degree, fieldOfStudy, fromData, toData, current, description} = formData;
 
-    const fetchUser = async() =>{
+    const fetchUser = async () => {
         try {
-            const response = await fetch('http://localhost:3001/user');
-            if(response.ok){
-                const res = await response.json();
-                setUserId(res[res.length-1].id);
-            }
-            
+           const registeredId = localStorage.getItem('UserId');
+           if(registeredId === null){
+                const response  = await fetch('http://localhost:3001/user');
+                if(response.ok){
+                    const res = await response.json();
+                    setUserId(res[res.length-1].id);      
+                }
+             }
+        
+        setUserId(registeredId);
         } catch (error) {
-            console.Error('Unable to fetch the user data');
+            console.Error('Unable to fetch the userId', error);
         }
     }
-
     useEffect(() =>{
         const loadData = async() =>{
             await fetchUser();

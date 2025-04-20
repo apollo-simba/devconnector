@@ -74,7 +74,6 @@ export const Registry = () =>{
       
           if (response.ok) {
             localStorage.setItem('Registration', true);
-            localStorage.setItem('UserName', name);
             alert("User saved to db.json!");
             setFormData({
                 name: '',

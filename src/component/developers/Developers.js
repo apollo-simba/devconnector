@@ -29,10 +29,8 @@ export const Developers = () => {
     setLoading(true);
     setError(null);
     const loadData = async() =>{
-      
       try {
         await fetchUser();
-       
       } catch (error) {
         console.log('this is error', error);
       }finally{
@@ -54,11 +52,12 @@ export const Developers = () => {
           <p className="lead">
             <FontAwesomeIcon icon={faConnectdevelop} /> Browse and connect with developers
           </p>
-  
+          {console.log(userData)}
           {userData.length > 0 ?   
             (
                 userData.map((user) =>(
                 <div key={user.id}>
+                  
                   <DevelopersItem 
                   id = {user.id}
                   name={user.name}

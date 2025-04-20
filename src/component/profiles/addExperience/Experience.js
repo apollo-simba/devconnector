@@ -19,14 +19,16 @@ export const Experience = () =>{
 
     const fetchUser = async () => {
         try {
-           
-            const response  = await fetch('http://localhost:3001/user');
-            if(response.ok){
-                const res = await response.json();
-                setUserId(res[res.length-1].id);
-                
-            }
-            console.log(userId);
+           const registeredId = localStorage.getItem('UserId');
+           if(registeredId === null){
+                const response  = await fetch('http://localhost:3001/user');
+                if(response.ok){
+                    const res = await response.json();
+                    setUserId(res[res.length-1].id);      
+                }
+             }
+        
+        setUserId(registeredId);
         } catch (error) {
             console.Error('Unable to fetch the userId', error);
         }
@@ -50,7 +52,6 @@ export const Experience = () =>{
            
         }
         const newExperience = {
-        
             job,
             company,
             location,
@@ -61,7 +62,6 @@ export const Experience = () =>{
         }
 
         try {
-
             const response = await fetch(`http://localhost:3001/user/${userId}`);
             if(!response.ok){
                 throw new Error('Unable to get the user data');

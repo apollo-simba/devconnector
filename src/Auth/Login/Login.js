@@ -51,7 +51,8 @@ export const Login = () =>{
         if(filteredUser){
             console.log(filteredUser);
             setShouldRedirect(true);
-            localStorage.setItem('UserName', filteredUser.name);
+            localStorage.setItem('UserId', filteredUser.id);
+            localStorage.setItem('login', true);
         }
         else{
             alert('The email is not existed');
