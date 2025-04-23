@@ -3,15 +3,16 @@ import { useState } from "react"
 import './Registry.css';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCake, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-
-
+import { REGISTER_SUCCESS,
+         REGISTER_FAIL
+ } from "../../actions/type";
+import { useDispatch } from "react-redux";
 
 
 export const Registry = () =>{
-    // dispatch = useDispatch();
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const[formData, setFormData] = useState({
         name: '',
@@ -74,12 +75,11 @@ export const Registry = () =>{
           });
       
           if (response.ok) {
-            // const rep = await response.json();
-           
-            // dispatch({
-            //     type: REGISTER_SUCCESS,
-            //     payload: rep.data
-            // });
+            const resp = await response.json();
+                dispatch({
+                    type: REGISTER_SUCCESS,
+                    payload: resp.data
+                });
             localStorage.setItem('Registration', true);
             alert("User saved to db.json!");
             setFormData({
@@ -90,8 +90,14 @@ export const Registry = () =>{
             });
             setShouldRedirect(true);  // This will trigger the redirect
           }
+
+
         } catch (error) {
           console.error("Error:", error);
+            dispatch({
+                type: REGISTER_FAIL,
+                payload: error
+            })
         }
     };
     return(
@@ -155,5 +161,5 @@ export const Registry = () =>{
    
         </Fragment>
         
-    )
-}
+    );
+};

@@ -3,8 +3,12 @@ import { Fragment } from "react";
 import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from "react-redux";
+import { LOGIN_SUCCESS } from "../../actions/type";
+
 
 export const Login = () =>{
+    const dispatch = useDispatch();
     const[formData, setFormData] = useState({
         email: '',
         password: ''
@@ -49,7 +53,10 @@ export const Login = () =>{
         );
         
         if(filteredUser){
-            console.log(filteredUser);
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: filteredUser.data,
+            })
             setShouldRedirect(true);
             localStorage.setItem('UserId', filteredUser.id);
             localStorage.setItem('login', true);

@@ -42,6 +42,20 @@
       "user_id": "34f2",
       "user_name": "test",
       "post_content": "djkshk",
+      "post_goodRate": true,
+      "post_badRate": false,
+      "post_click": false,
+      "discussion_comment": [
+        "dfhkjshfjk",
+        "fdhskshkjdhksdf"
+      ],
+      "discussion_count": 2
+    },
+    {
+      "id": "b015",
+      "user_id": "81b0",
+      "user_name": "Martin Orlando",
+      "post_content": "create a post",
       "post_goodRate": false,
       "post_badRate": false,
       "post_click": false,

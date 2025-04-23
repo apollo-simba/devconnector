@@ -6,11 +6,14 @@ import { faCode, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Logout } from "../../actions/auth";
 import { useEffect } from "react";
 import PropTypes from 'prop-types';
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 
 export const Navbar = () =>{
     // const user = useContext(UserContext);  //This is the part of useContext;
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const dispacth = useDispatch();
     const [shouldRedirect, setShouldRedirect] = useState(false);
     useEffect(() => {
         const isRegistered = JSON.parse(localStorage.getItem('Registration')) || false;
@@ -34,7 +37,7 @@ export const Navbar = () =>{
         </ul>
 
     )
-    const guestLink = (
+    const AuthLink = (
         <ul id="list2">
             <li>
                 <Link to='/developers'>Developers</Link>
@@ -63,11 +66,15 @@ export const Navbar = () =>{
                 </Link>
                 
             </h1>
-            <Fragment>{shouldRedirect ? guestLink : primaryLink}</Fragment>
-            
+            {(
+                <Fragment>{isAuthenticated ? AuthLink : primaryLink}</Fragment>
+                
+            )}
         </nav>
     )
 };
+
+export default Navbar;
 // Navbar.propTypes = {
 //     Logout: PropTypes.func.isRequired,
 //     auth: PropTypes.object.isRequired,

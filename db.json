@@ -245,6 +245,102 @@
       "education": [],
       "createdDate": 1745350105749,
       "updatedDate": null
+    },
+    {
+      "id": "648b",
+      "name": "Zhang Shuaijian",
+      "email": "Zhang Shuaijian@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Manager",
+          "company": "Secure Haven LLC",
+          "website": "website",
+          "location": "New York NY",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "github",
+          "proposal": "123456",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "New York NY",
+          "fromData": "2025-04-15",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "education": [],
+      "createdDate": 1745402565683,
+      "updatedDate": null
+    },
+    {
+      "id": "81b0",
+      "name": "Martin Orlando",
+      "email": "Martin Orlando@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Senior Developer",
+          "company": "Secure Haven LLC",
+          "website": "website",
+          "location": "New York NY",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "github",
+          "proposal": "a short bio of yourself",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "Vancouver, BC",
+          "fromData": "2025-04-02",
+          "toData": "2025-04-17",
+          "current": false,
+          "description": ""
+        }
+      ],
+      "education": [
+        {
+          "school": "the university of Arizona",
+          "degree": "bachelor",
+          "fieldOfStudy": "computer science",
+          "fromData": "2025-04-03",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "createdDate": 1745403225890,
+      "updatedDate": null
     }
   ]
 }
