@@ -57,7 +57,7 @@ export const Developers = () => {
             (
                 userData.map((user) =>(
                 <div key={user.id}>
-                  
+                  {console.log(user.profile)}
                   <DevelopersItem 
                   id = {user.id}
                   name={user.name}

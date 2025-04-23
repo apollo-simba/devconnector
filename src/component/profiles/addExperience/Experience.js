@@ -19,16 +19,20 @@ export const Experience = () =>{
 
     const fetchUser = async () => {
         try {
-           const registeredId = localStorage.getItem('UserId');
-           if(registeredId === null){
+           const registeredId = (localStorage.getItem('UserId') || null);
+           console.log(registeredId);
+           if(registeredId !== 'null'){
+               setUserId(registeredId);
+            }
+            else{
+
                 const response  = await fetch('http://localhost:3001/user');
                 if(response.ok){
                     const res = await response.json();
                     setUserId(res[res.length-1].id);      
                 }
-             }
+            }
         
-        setUserId(registeredId);
         } catch (error) {
             console.Error('Unable to fetch the userId', error);
         }

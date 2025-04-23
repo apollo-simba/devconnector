@@ -16,8 +16,7 @@ export const Dashboard = () => {
     const [userId, setUserId] = useState(null);
     const fetchData = async (id) => {
             const loginState = localStorage.getItem('login');
-            console.log('the id',id);
-            if(id !== null){
+            if(id !== 'null'){
                 try {
                     console.log('The login case is performed');
                     console.log('the id',id);
@@ -43,7 +42,6 @@ export const Dashboard = () => {
                     setUserId(data[data.length-1].id);
                     setUserName(data[data.length-1].name);
                 } catch (error) {
-                    
                     setError(error.message);
                 }
             };
@@ -53,13 +51,17 @@ export const Dashboard = () => {
             setLoading(true);
             setError(null);
             try {
-                const registeredId = localStorage.getItem('UserId');
+                const registeredId = localStorage.getItem('UserId') || null;
                 setUserId(registeredId);
-                console.log(registeredId);
-                if(registeredId === null){
+                console.log('this is the registeredId-',registeredId);
+                if(registeredId !== null){
+                    console.log('the function is called with id');
+                    await fetchData(registeredId);
+                }
+                else{
+                    console.log('the function is called with null');
                     await fetchData(null);
                 }
-                await fetchData(registeredId);
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -140,7 +142,7 @@ export const Dashboard = () => {
             const res = await updatedResponse.json();
             setUserData(res);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error:', error); 
         }
 
     }
@@ -270,7 +272,7 @@ export const Dashboard = () => {
             ) : (
                 <>
                     <p>You have not yet setup a profile, please add some info</p>
-                    <Link to='/create-profiles' className="btn bg-primary">
+                    <Link to='/create-profiles' className="btn bg-primary my-1">
                         Create Profile
                     </Link>
                 </>

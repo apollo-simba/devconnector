@@ -3,9 +3,10 @@ import './Navbar.css'
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCode, faSignOutAlt, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Logout } from "../../actions/api";
+import { Logout } from "../../actions/auth";
 import { useEffect } from "react";
-
+import PropTypes from 'prop-types';
+import { connect } from "react-redux";
 
 
 export const Navbar = () =>{
@@ -51,7 +52,7 @@ export const Navbar = () =>{
                 </a>
             </li>
         </ul>
-    )
+    );
 
 
     return(
@@ -66,4 +67,12 @@ export const Navbar = () =>{
             
         </nav>
     )
-}
+};
+// Navbar.propTypes = {
+//     Logout: PropTypes.func.isRequired,
+//     auth: PropTypes.object.isRequired,
+// };
+// const mapStateToProps = state => ({
+//     auth: state.auth,
+// });
+// export default connect(mapStateToProps, { Logout })(Navbar);

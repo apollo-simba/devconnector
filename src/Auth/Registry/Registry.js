@@ -3,14 +3,15 @@ import { useState } from "react"
 import './Registry.css';
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCake, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 
 
 
 export const Registry = () =>{
-    
+    // dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const[formData, setFormData] = useState({
         name: '',
@@ -73,6 +74,12 @@ export const Registry = () =>{
           });
       
           if (response.ok) {
+            // const rep = await response.json();
+           
+            // dispatch({
+            //     type: REGISTER_SUCCESS,
+            //     payload: rep.data
+            // });
             localStorage.setItem('Registration', true);
             alert("User saved to db.json!");
             setFormData({
@@ -92,7 +99,7 @@ export const Registry = () =>{
 
             <h1 className="large text-primary">Sign Up</h1>
             <p className="lead">
-                <FontAwesomeIcon icon={faUser} /> Create Your Account
+                <FontAwesomeIcon icon={faUser}/>{'  '}Create Your Account
             </p>
             <form onSubmit={e => handleSubmit(e)} className='form'>
                 <div className='form-group'>
@@ -107,14 +114,14 @@ export const Registry = () =>{
                 <div className='form-group'>
                     <input
                         name="email"
-                        placeholder="Email"
+                        placeholder="Email Address"
                         type="text"
                         value={email}
                         onChange={e => handleChange(e)}
                         />
-                    <p>
+                    <small className="form-text">
                     This site uses Gravatar so if you want a profile image, use a Gravatar email
-                    </p>
+                    </small>
                 </div>
                 
                 <div className='form-group'>
@@ -138,10 +145,10 @@ export const Registry = () =>{
                 
                 <input
                     type="submit"
-                    value='Registry'
+                    value='Register'
                     className='btn btn-primary'
                     />
-                <p>
+                <p className="my-1">
                     Already have an account?  <Link to = '/login'>Sign in</Link> 
                 </p>
             </form>

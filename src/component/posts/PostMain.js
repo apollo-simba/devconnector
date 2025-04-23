@@ -15,6 +15,7 @@ export const PostMain = () =>{
     const[userName, setUserName] = useState('');
     const[postData, setPostData] = useState([]);
     const[content , setContent] = useState('');
+    const[checking, setChecking] = useState({});
     const handleChange = e =>{
         setContent(e.target.value);
     };
@@ -61,8 +62,8 @@ export const PostMain = () =>{
             user_id: userId,
             user_name: userName,
             post_content : content,
-            post_goodRate: 0,
-            post_badRate: 0,
+            post_goodRate: false,
+            post_badRate: false,
             post_click: false,
             discussion_comment: [],
             discussion_count: 0
@@ -103,59 +104,79 @@ export const PostMain = () =>{
         }
     };
     // 
-    const handleSet = async(id) => {
-        try {
-            setPostData(prev => prev.map(post => 
-                post.id === id 
-                    ? {...post, post_goodRate: (post.post_goodRate || 0) + 1}
+    const handleSet = async(postId) => {
+        console.log(postId);
+        
+        const check = postData.find(post =>
+            post.id === postId
+            
+        );
+        console.log(check.post_badRate);                                                                                                                                                                                                                                                                                                                                                                                  
+        if(!check.post_badRate){
+          
+            try {
+                setPostData(prev => prev.map(post => 
+                    post.id === postId 
+                    ? {...post, post_goodRate: !(post.post_goodRate)}
                     : post
-            ));
-    
-            const response = await fetch(`http://localhost:3003/post/${id}`, {
-                method: 'PUT',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify({
-                    ...postData.find(p => p.id === id),
-                    post_goodRate: (postData.find(p => p.id === id).post_goodRate || 0) + 1
-                })
-            });
-    
-            if(!response.ok) {
-                throw new Error('Failed to update server');
+                ));
+                
+                const response = await fetch(`http://localhost:3003/post/${postId}`, {
+                    method: 'PUT',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({
+                        ...postData.find(p => p.id === postId),
+                        post_goodRate: !(postData.find(p => p.id === postId).post_goodRate)
+                    })
+                });
+                
+                if(!response.ok) {
+                    throw new Error('Failed to update server');
+                }
+            } catch (error) {
+                console.error("Update error:", error);
+                // Revert UI if API fails
+                setPostData(prev => [...prev]);
             }
-        } catch (error) {
-            console.error("Update error:", error);
-            // Revert UI if API fails
-            setPostData(prev => [...prev]);
         }
+        return ;
+        
     };
 
     const handleReset = async(id) =>{
-        try {
-
-           setPostData(prev => prev.map(post =>
+        const check = postData.find(post =>
             post.id === id
-            ? {...post , post_badRate: (post.post_badRate || 0) - 1}
-            : post
-           ))
-           const response = await fetch(`http://localhost:3003/post/${id}`,
-            {
-                method: 'PUT',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(
-                {...postData.find(prev => prev.id === id),
-                    post_badRate: (postData.find(prev => prev.id === id).post_badRate || 0) - 1
+        );
+        console.log(check.post_goodRate);
+        if(!check.post_goodRate){
+     
+            try {
+                
+                setPostData(prev => prev.map(post =>
+                    post.id === id
+                    ? {...post , post_badRate: !(post.post_badRate)}
+                    : post
+                ))
+                const response = await fetch(`http://localhost:3003/post/${id}`,
+                    {
+                        method: 'PUT',
+                        headers: {'Content-Type':'application/json'},
+                        body: JSON.stringify(
+                            {...postData.find(prev => prev.id === id),
+                                post_badRate: !(postData.find(prev => prev.id === id))
+                            }
+                        )
+                    }                                                                                                                                                                               
+                )                                                                                                                               
+                if(!response.ok){
+                    throw new Error('Unable to update the data');
                 }
-                )
-            }                                                                                                                                                                               
-            )                                                                                                                               
-            if(!response.ok){
-                throw new Error('Unable to update the data');
+            } catch (error) {
+                console.log('The error is occured', error);
+                
             }
-        } catch (error) {
-            console.log('The error is occured', error);
-       
         }
+        return ;
     }
     return(
         <div className='post-form'>
@@ -194,15 +215,14 @@ export const PostMain = () =>{
                                     Posted on <Moment format="YYYY/MM/DD">{Date.now()}</Moment>
                                 </p>
                                 <div>
-                                    <button className="btn btn-light" type="button" onClick={() => handleSet(post.id)}>
-                                        
+                                    <button className="btn btn-light" type="button" onClick={() => handleSet(post.id)}>   
                                         <FontAwesomeIcon icon={faThumbsUp} className="fa-1.5x"/>
-                                        <span>{post.post_goodRate || ''}</span>
+                                        <span>{!(post.post_badRate) && (post.post_goodRate) ? ' 1' : ''}</span>
                                     </button>
                                     
                                     <button className="btn btn-light" type="button" onClick={() => handleReset(post.id)}>
                                         <FontAwesomeIcon icon={faThumbsDown} className="fa-1.5x"/>
-                                        <span>{post.post_badRate || ''}</span>
+                                        <span>{!(post.post_goodRate) && (post.post_badRate) ? ' -1' : ''}</span>
                                     </button>
                                     <Link to = {`/posts/${post.id}`} className = "btn btn-primary">Discussion{' '}
                                     {post.discussion_count ? (

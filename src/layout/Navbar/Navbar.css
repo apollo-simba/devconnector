@@ -17,14 +17,14 @@
     width: 17rem;
     justify-content: space-between;
     list-style: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 #list2{
     display: flex;
     width: 26rem;
     justify-content: space-between;
     list-style: none;
-    font-size: 18px;
+    font-size: 16px;
 }
 /* /* .navbar {
     display: flex;

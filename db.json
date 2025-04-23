@@ -28,8 +28,28 @@
           }
         }
       ],
-      "work_exp": [],
-      "education": [],
+      "work_exp": [
+        {
+          "job": "senior software engineer",
+          "company": "Innos",
+          "location": "New York NY",
+          "fromData": "2025-04-09",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "education": [
+        {
+          "school": "the university of Arizona",
+          "degree": "master",
+          "fieldOfStudy": "software engineering",
+          "fromData": "2025-04-08",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
       "createdDate": 1745127395151,
       "updatedDate": null
     },
@@ -119,6 +139,111 @@
       ],
       "education": [],
       "createdDate": 1745127862015,
+      "updatedDate": null
+    },
+    {
+      "id": "4828",
+      "name": "final",
+      "email": "final@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Manager",
+          "company": "Secure Haven LLC",
+          "website": "2222222222",
+          "location": "location",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "11111111111111111111111111",
+          "proposal": "A short bio of yourself",
+          "social": {
+            "twitter": "11111",
+            "facebook": "2",
+            "youtube": "2",
+            "linkedin": "22",
+            "instagram": "22"
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "jobtitle",
+          "company": "Secure Haven LLC",
+          "location": "Vancouver, BC",
+          "fromData": "2025-04-10",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "education": [
+        {
+          "school": "the university of Arizona",
+          "degree": "master",
+          "fieldOfStudy": "software engineering",
+          "fromData": "2025-04-09",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "createdDate": 1745329672777,
+      "updatedDate": null
+    },
+    {
+      "id": "34f2",
+      "name": "test",
+      "email": "test@gmail.com",
+      "password": "123456",
+      "profile": [
+        {
+          "status": "Junior Developer",
+          "company": "Innos",
+          "website": "1111111111",
+          "location": "",
+          "skills": [
+            "software engineering",
+            "html",
+            "css",
+            "javascript"
+          ],
+          "gitName": "",
+          "proposal": "",
+          "social": {
+            "twitter": "",
+            "facebook": "",
+            "youtube": "",
+            "linkedin": "",
+            "instagram": ""
+          }
+        }
+      ],
+      "work_exp": [
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "New York NY",
+          "fromData": "2025-04-16",
+          "toData": "",
+          "current": true,
+          "description": ""
+        },
+        {
+          "job": "senior software engineer",
+          "company": "Secure Haven LLC",
+          "location": "999999999",
+          "fromData": "2025-04-24",
+          "toData": "",
+          "current": true,
+          "description": ""
+        }
+      ],
+      "education": [],
+      "createdDate": 1745350105749,
       "updatedDate": null
     }
   ]

@@ -20,16 +20,21 @@ export const Education = () =>{
 
     const fetchUser = async () => {
         try {
-           const registeredId = localStorage.getItem('UserId');
-           if(registeredId === null){
+           const registeredId = localStorage.getItem('UserId') || null;
+           console.log('this is the registeredId-', registeredId);
+           if(registeredId !== 'null'){
+               setUserId(registeredId);
+            }
+            else{
+
                 const response  = await fetch('http://localhost:3001/user');
                 if(response.ok){
                     const res = await response.json();
-                    setUserId(res[res.length-1].id);      
+                    setUserId(res[res.length-1].id);  
+                    console.log(res[res.length-1].id);  
                 }
-             }
+            }
         
-        setUserId(registeredId);
         } catch (error) {
             console.Error('Unable to fetch the userId', error);
         }
@@ -46,6 +51,7 @@ export const Education = () =>{
     }
     const [disabled, toggleDisabled] = useState(false);
     const handleSubmit = async(e) =>{
+        e.preventDefault();
         if(! userId){
             alert('please waiting for loading userId');
             return ;
@@ -61,7 +67,7 @@ export const Education = () =>{
             description
         }
         try {
-            
+            console.log('the UserId value is -', userId);
             const response = await fetch(`http://localhost:3001/user/${userId}`);
             if(!response.ok){
                 throw new Error('Unable to access the userId');

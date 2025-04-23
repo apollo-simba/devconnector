@@ -5,19 +5,45 @@
       "user_id": "4adc",
       "user_name": "server",
       "post_content": "rtterte",
-      "post_goodRate": 0,
-      "post_badRate": 0,
+      "post_goodRate": true,
+      "post_badRate": false,
+      "post_click": false,
+      "discussion_comment": [
+        "hjghjgjh"
+      ],
+      "discussion_count": 1
+    },
+    {
+      "id": "1677",
+      "user_id": "4828",
+      "user_name": "final",
+      "post_content": "dgsgsg",
+      "post_goodRate": false,
+      "post_badRate": false,
       "post_click": false,
       "discussion_comment": [],
       "discussion_count": 0
     },
     {
-      "id": "38e0",
-      "user_id": "4adc",
-      "user_name": "server",
-      "post_content": "treetr",
-      "post_goodRate": 0,
-      "post_badRate": 0,
+      "id": "16e2",
+      "user_id": "4828",
+      "user_name": "final",
+      "post_content": "ewqeqwe",
+      "post_goodRate": true,
+      "post_badRate": false,
+      "post_click": false,
+      "discussion_comment": [
+        "fdfsfs"
+      ],
+      "discussion_count": 1
+    },
+    {
+      "id": "684b",
+      "user_id": "34f2",
+      "user_name": "test",
+      "post_content": "djkshk",
+      "post_goodRate": false,
+      "post_badRate": false,
       "post_click": false,
       "discussion_comment": [],
       "discussion_count": 0
